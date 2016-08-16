@@ -79,6 +79,7 @@ function populatePage(){
 
     var current_u_div = $("<div/>", {class: "row"}).append(logo, username, stream_info);
 
+    if( users_data[user].status === "not-found" || ["Offline", "Account Closed"].indexOf(users_data[user].game) >=0  ){
       current_u_div.addClass("offline");
       $(".streamers-table").append(current_u_div);
     }else{
