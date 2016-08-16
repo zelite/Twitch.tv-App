@@ -26,12 +26,12 @@ function collectUserData(data, status, username) {
     if (status == "success") {
             users_data[username].status = "exists";
             users_data[username].display_name = data.display_name;
-            users_data[username].logo = data.logo || "https://unsplash.it/300/300";
+            users_data[username].logo = data.logo || "images/Portrait_placeholder.png";
         } // //if logo null uses placeholder, TODO: find placeholder image
     else {
         users_data[username].display_name = username;
         users_data[username].status = "not-found";
-        users_data[username].logo = "https://unsplash.it/300/300";
+        users_data[username].logo = "images/Portrait_placeholder.png";
         }
     }
 
@@ -42,7 +42,7 @@ function collectStreamData(data, status, username){
      users_data[username].channel_status = "";
    }else{
      users_data[username].game = data.stream.game;
-     users_data[username].channel_status = data.stream.channel.status;
+     users_data[username].channel_status = ": "+ data.stream.channel.status;
    }
  }else{
    users_data[username].game = "Account Closed";
@@ -74,7 +74,7 @@ function populatePage(){
      if(users_data[user].status == "not-found"){
        stream_info.find("p").text("User does not exist.");
      }else{
-       stream_info.find("p").text(users_data[user].game+": "+users_data[user].channel_status);
+       stream_info.find("p").text(users_data[user].game+users_data[user].channel_status);
      }
 
     var current_u_div = $("<div/>", {class: "row"}).append(logo, username, stream_info);
