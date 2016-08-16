@@ -1,0 +1,17 @@
+/*{
+  border: 0.1rem solid red;
+}*/
+
+.profile-img{
+  width: 7rem;
+  max-width: 100%;
+  border-radius: 50%;
+}
+
+.online{
+  background-color: #BEE7D0;
+}
+
+.offline{
+  background-color: #BEC1E7;
+}
