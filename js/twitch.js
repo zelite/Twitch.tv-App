@@ -1,8 +1,8 @@
 var users = ["ESL_SC2", "OgamingSC2", "cretetion",
              "freecodecamp", "storbeck", "habathcx", "RobotCaleb",
-             "noobs2ninjas", "brunofin", "comster404", "jksdhfiusd874z387hf873h4"];
+             "noobs2ninjas", "brunofin", "comster404"];
 
-users_data = {};
+var users_data = {};
 
 users.forEach(function(u){
   users_data[u] = {};
@@ -59,7 +59,6 @@ users.forEach(function(u){
 $(document).ajaxStop(populatePage);
 
 function populatePage(){
-  users_divs = [];
   for (var user in users_data) {
    if (users_data.hasOwnProperty(user)) {
      var logo = $("<div/>", {class: "picture two columns"})
@@ -67,17 +66,20 @@ function populatePage(){
                                          src: users_data[user].logo,
                                          alt: users_data[user].display_name+" user logo image"}));
 
-     var username =  $("<div/>", {class: "username three columns"})
-                       .append($("<p/>").text(users_data[user].display_name));
+     var username = $("<a/>", {href: "#"})// TODO: add links
+                      .append(
+                            $("<div/>", {class: "username three columns"})
+                            .append($("<p/>").text(users_data[user].display_name))
+                            );
 
      var stream_info = $("<div/>", {class: "status seven columns"}).append($("<p/>"));
      if(users_data[user].status == "not-found"){
        stream_info.find("p").text("User does not exist.");
      }else{
-       stream_info.find("p").text(users_data[user].game+users_data[user].channel_status);
+       stream_info.find("p").html(users_data[user].game+"<span class='extra-status'>"+users_data[user].channel_status+"</span>");
      }
 
-    var current_u_div = $("<div/>", {class: "row"}).append(logo, username, stream_info);
+    var current_u_div = $("<div/>", {class: "user row"}).append(logo, username, stream_info);
 
     if( users_data[user].status === "not-found" || ["Offline", "Account Closed"].indexOf(users_data[user].game) >=0  ){
       current_u_div.addClass("offline");
