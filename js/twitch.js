@@ -2,64 +2,66 @@ var users = ["ESL_SC2", "OgamingSC2", "cretetion",
              "freecodecamp", "storbeck", "habathcx", "RobotCaleb",
              "noobs2ninjas", "brunofin", "comster404"];
 
-var users_data = {};
-
-users.forEach(function(u){
-  users_data[u] = {};
-});
 
 
+function addUser(user){
+    $.getJSON("https://api.twitch.tv/kraken/users/"+user, function(data){
+            var logo = $("<div/>", {class: "picture two columns"})
+                   .append($("<img />", {class: "profile-img",
+                                         src: data.logo || "images/Portrait_placeholder.png",
+                                         alt: data.display_name+" user logo image"}));
+            var username = $("<div/>", {class: "username three columns"})
+                            .append($("<p/>").text(data.display_name))
+            
+            var stream_info = $("<div/>", {class: "status seven columns"}).append($("<p/>"));
+            var current_u_div = $("<div/>", {class: "user row"}).append(logo, username, stream_info);
+            
+            
+            
+            addStreamData(user, current_u_div);
+            })}
 
-function getUserInfo(username){
-  return $.getJSON("https://api.twitch.tv/kraken/users/"+username)
-            .always(function(data, status){
-              collectUserData(data, status, username);});
-}
-
-function getUserStream(username){
-  return $.getJSON("https://api.twitch.tv/kraken/streams/"+username)
-    .always(function(data, status){
-      collectStreamData(data, status, username);});
-}
-
-function collectUserData(data, status, username) {
-    if (status == "success") {
-            users_data[username].status = "exists";
-            users_data[username].display_name = data.display_name;
-            users_data[username].logo = data.logo || "images/Portrait_placeholder.png";
-        } // //if logo null uses placeholder, TODO: find placeholder image
-    else {
-        users_data[username].display_name = username;
-        users_data[username].status = "not-found";
-        users_data[username].logo = "images/Portrait_placeholder.png";
+function addStreamData(user, div) {
+    $.getJSON("https://api.twitch.tv/kraken/streams/" + user)
+        .always(function(data, status) {
+            if(status !== "success"){
+            div.find(".status p").text("Account closed");
+            div.addClass("offline");
+            addToUserTable(div);
+        }else{
+            if (data.stream) {
+                div.find(".status p").html(data.stream.game + "<span class='extra-status'>: " + data.stream.channel.status);
+                div.addClass("online");
+            }
+            else {
+                div.find(".status p").text("Offline");
+                div.addClass("offline");
+            }
+            addChannelLink(user, div);
         }
-    }
+        })}
+        
 
-function collectStreamData(data, status, username){
- if(status == "success"){
-   if(data.stream === null){
-     users_data[username].game = "Offline";
-     users_data[username].channel_status = "";
-   }else{
-     users_data[username].game = data.stream.game;
-     users_data[username].channel_status = ": "+ data.stream.channel.status;
-   }
- }else{
-   users_data[username].game = "Account Closed";
-   users_data[username].channel_status = "";
- }
+function addChannelLink(user, div){
+    $.getJSON("https://api.twitch.tv/kraken/channels/"+user) 
+        .done(function(data){
+            debugger;
+            if(data.url){
+            div.find(".username p").wrap("<a href='"+data.url+"'></a>");
+            addToUserTable(div);
+            }
+        });
 }
-
-
-users.forEach(function(u){
-  getUserInfo(u);
-  getUserStream(u);
-});
-
-$(document).ajaxStop(populatePage);
-
-function populatePage(){
-  for (var user in users_data) {
+        
+function addToUserTable(div){
+    if(div.hasClass("online")){
+        $(".streamers-table").prepend(div);
+    }else{
+        $(".streamers-table").append(div);
+    }
+}
+    
+  /*for (var user in users_data) {
    if (users_data.hasOwnProperty(user)) {
      var logo = $("<div/>", {class: "picture two columns"})
                    .append($("<img />", {class: "profile-img",
@@ -88,14 +90,14 @@ function populatePage(){
       current_u_div.addClass("online");
       $(".streamers-table").prepend(current_u_div);
     }
-   }}
+   }}*/
 
- }
-
-
+ 
 
 
 
 
 
-//users.forEach(getUserInfo);
+$(document).ready(
+    users.forEach(addUser)
+    );
