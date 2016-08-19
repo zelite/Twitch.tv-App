@@ -1,75 +1,156 @@
-/*{  border: 0.1rem solid red;}*/
+/*{border: 0.1rem solid red;}*/
 
-body{
-  background-color: grey;
+body {
+  background-color: #696D7D;
 }
 
-h1{
-  color: white;
-}
-.user p{
-  margin-bottom: 0;}
-
-.user{
-
-  border-top: 0.2rem solid white;
-  border-bottom:  0.2rem solid white;
-  padding: 1rem;
+.header {
+  background: #F4F1DE;
 }
 
-.online{
-  background-color: #BEE7D0;
+h1 {
+  padding-top: 2rem;
+  padding-left: 2rem;
+  color: #696D7D;
 }
 
-.offline{
-  background-color: #BEC1E7;
+.filter-buttons {
+  position: absolute;
+  bottom: 0.5rem;
+  right: 0;
 }
 
+.filter {
+  float: right;
+  clear: right;
+  overflow: hidden;
+  width: 2.6rem;
+  transition: width 0.5s ease-in-out;
+  height: 2rem;
+  background-color: #F2CC8F;
+}
 
-.profile-img{
-  max-height: 4.8rem;
+.filter p {
+  text-transform: uppercase;
+  font-size: 1.1rem;
+  line-height: 2rem;
+  float: right;
+  margin-bottom: 0;
+  padding-right: 0.5rem;
+}
+
+.circle {
+  margin-top: 0.4rem;
+  margin-right: 0.5rem;
+  margin-left: 0.5rem;
+  float: left;
+  width: 1.1rem;
+  height: 1.1rem;
   border-radius: 50%;
 }
 
-.picture{
+.circle.all {
+  background-color: #696D7D;
+}
+
+.selected,
+.filter:hover {
+  width: 8rem;
+  /*Cant be auto*/
+  transition: width 0.5s ease-in-out;
+}
+
+.user {
+  border-top: 0.2rem solid #F4F1DE;
+  border-bottom: 0.2rem solid #F4F1DE;
+  padding: 1rem;
+}
+
+.online {
+  background-color: #81B29A;
+}
+
+.offline {
+  background-color: #3D405B;
+}
+
+.profile-img {
+  max-height: 4.8rem;
+  border-radius: 50%;
+  border: 0.3rem solid #F4F1DE;
+}
+
+.picture {
   max-height: 6rem;
 }
 
-.status, .status p{
+.status,
+.status p {
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
 }
 
-.username, .status{
+.username,
+.status {
   padding-left: 1rem;
 }
 
-.username{
+.username {
   text-align: center;
+  font-weight: bold;
 }
 
+.status {
+  font-style: italic;
+}
 
-@media (max-width: 550px){
-  .extra-status{
+.user.online {
+  color: #3D405B;
+}
+
+.username a {
+  color: #4A6FA5;
+}
+
+.user.offline {
+  color: #81B29A;
+}
+
+.user p {
+  margin-top: 1.5rem;
+  margin-bottom: 0;
+}
+
+@media (max-width: 550px) {
+  .user p {
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+  h1 {
+    padding-left: 1rem;
+  }
+  .extra-status {
     display: none;
   }
-  .status{
+  .status {
     text-align: center;
   }
-
-  .picture{
-    width: auto;
-    min-width: 2rem;
+  .picture {
+    width: 13.333333333%;
   }
-  .three.columns{
-     width: 82.6666666667%;
-  }
-  .seven.columns{
+  .username {
     width: 82.6666666667%;
-}}
+  }
+  .status {
+    width: 82.6666666667%;
+  }
+  .header {
+    padding-bottom: 4rem;
+  }
+}
 
-footer{
+footer {
   color: white;
   text-align: center;
   margin-top: 2rem;
