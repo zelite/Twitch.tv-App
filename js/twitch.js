@@ -3,6 +3,11 @@ var users = ["ESL_SC2", "OgamingSC2", "cretetion",
     "noobs2ninjas", "brunofin", "comster404"
 ];
 
+$.ajaxSetup({
+  headers : {
+    "Client-ID": "3m9dgpqtvp16pe0vaeep1fnti9jfwam"
+  }});
+
 
 
 function addUser(user) {
@@ -18,7 +23,7 @@ function addUser(user) {
         var username = $("<div/>", {
                 class: "username three columns"
             })
-            .append($("<p/>").text(data.display_name))
+            .append($("<p/>").text(data.display_name));
 
         var stream_info = $("<div/>", {
             class: "status seven columns"
